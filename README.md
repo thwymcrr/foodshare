@@ -1,2 +1,3 @@
 # foodshare
 FoodShare is a web-based platform designed to reduce food waste by connecting individuals, restaurants, hotels, and event organizers with NGOs and volunteers who can distribute surplus food to those in need.  The platform allows donors to quickly list available food, while NGOs and volunteers can view nearby donations, accept requests.
+Author - Swayam Prakash Mishra
