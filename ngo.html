@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hope Foundation NGO</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+
+  body { color: #333; background: #fff; }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2e8b57;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 25px;
+    font-size: 14px;
+  }
+
+  .nav-links a:hover { color: #2e8b57; }
+
+  .nav-btn {
+    padding: 8px 18px;
+    background: #2e8b57;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+
+  .nav-btn:hover { background: #1f6e45; }
+
+  .menu-toggle {
+    display: none;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #2e8b57, #1f6e45);
+    color: #fff;
+    text-align: center;
+    padding: 70px 20px;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+  }
+
+  .hero p {
+    font-size: 15px;
+    max-width: 500px;
+    margin: 0 auto 25px;
+    opacity: 0.95;
+  }
+
+  .hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+  }
+
+  .btn-primary {
+    background: #fff;
+    color: #2e8b57;
+  }
+
+  .btn-primary:hover { background: #eee; }
+
+  .btn-secondary {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+  }
+
+  .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+
+  /* Stats */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    padding: 40px 20px;
+    flex-wrap: wrap;
+    background: #f4f6f8;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat .number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2e8b57;
+  }
+
+  .stat .label {
+    font-size: 13px;
+    color: #666;
+  }
+
+  /* Causes */
+  .section {
+    padding: 50px 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section-heading {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .section-heading h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .section-heading p {
+    font-size: 13px;
+    color: #777;
+  }
+
+  .causes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .cause-card {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+
+  .cause-card:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transform: translateY(-4px);
+  }
+
+  .cause-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+
+  .cause-card h3 {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .cause-card p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 12px;
+  }
+
+  .cause-progress {
+    height: 6px;
+    background: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+
+  .cause-progress-fill {
+    height: 100%;
+    background: #2e8b57;
+  }
+
+  .cause-meta {
+    font-size: 11px;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Newsletter */
+  .newsletter {
+    background: #f4f6f8;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .newsletter h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .newsletter p {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 18px;
+  }
+
+  .newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .newsletter-form input {
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 260px;
+    max-width: 80vw;
+    outline: none;
+  }
+
+  .newsletter-form input:focus { border-color: #2e8b57; }
+
+  .newsletter-form button {
+    padding: 10px 20px;
+    background: #2e8b57;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .newsletter-form button:hover { background: #1f6e45; }
+
+  .newsletter-msg {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #2e8b57;
+    min-height: 18px;
+  }
+
+  /* Footer */
+  footer {
+    background: #1f2937;
+    color: #cbd5e1;
+    text-align: center;
+    padding: 25px 20px;
+    font-size: 13px;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; background: #fff; width: 200px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); gap: 15px; }
+    .nav-links.open { display: flex; }
+    .menu-toggle { display: block; }
+    .causes-grid { grid-template-columns: 1fr; }
+    .stats { gap: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">Hope Foundation</div>
+  <div class="nav-links" id="navLinks">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Causes</a>
+    <a href="#">Volunteer</a>
+    <a href="#">Reviews</a>
+    <a href="#" class="nav-btn">Donate</a>
+  </div>
+  <div class="menu-toggle" id="menuToggle">☰</div>
+</nav>
+
+<section class="hero">
+  <h1>Together, We Can Change Lives</h1>
+  <p>Join us in our mission to provide education, healthcare, and hope to communities in need around the world.</p>
+  <div class="hero-buttons">
+    <button class="btn-primary" onclick="scrollToCauses()">Donate Now</button>
+    <button class="btn-secondary" onclick="scrollToCauses()">See Our Causes</button>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat">
+    <div class="number" id="statDonors">0</div>
+    <div class="label">Donors</div>
+  </div>
+  <div class="stat">
+    <div class="number" id="statVolunteers">0</div>
+    <div class="label">Volunteers</div>
+  </div>
+  <div class="stat">
+    <div class="number" id="statProjects">0</div>
+    <div class="label">Projects Completed</div>
+  </div>
+  <div class="stat">
+    <div class="number" id="statFunds">$0</div>
+    <div class="label">Funds Raised</div>
+  </div>
+</div>
+
+<section class="section" id="causes">
+  <div class="section-heading">
+    <h2>Our Causes</h2>
+    <p>Choose a cause close to your heart and make a difference</p>
+  </div>
+  <div class="causes-grid">
+    <div class="cause-card">
+      <div class="cause-icon">📚</div>
+      <h3>Education for Children</h3>
+      <p>Helping underprivileged kids get access to quality education.</p>
+      <div class="cause-progress"><div class="cause-progress-fill" style="width:72%;"></div></div>
+      <div class="cause-meta"><span>$7,200 raised</span><span>72%</span></div>
+    </div>
+    <div class="cause-card">
+      <div class="cause-icon">🏥</div>
+      <h3>Healthcare Support</h3>
+      <p>Providing medical aid and checkups to remote villages.</p>
+      <div class="cause-progress"><div class="cause-progress-fill" style="width:45%;"></div></div>
+      <div class="cause-meta"><span>$4,500 raised</span><span>45%</span></div>
+    </div>
+    <div class="cause-card">
+      <div class="cause-icon">🍲</div>
+      <h3>Food & Nutrition</h3>
+      <p>Ensuring no child goes to bed hungry in our communities.</p>
+      <div class="cause-progress"><div class="cause-progress-fill" style="width:88%;"></div></div>
+      <div class="cause-meta"><span>$8,800 raised</span><span>88%</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <h2>Stay Updated</h2>
+  <p>Subscribe to our newsletter for updates on our latest projects and impact stories.</p>
+  <form class="newsletter-form" id="newsletterForm">
+    <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
+    <button type="submit">Subscribe</button>
+  </form>
+  <p class="newsletter-msg" id="newsletterMsg"></p>
+</section>
+
+<footer>
+  &copy; 2026 Hope Foundation. All rights reserved.
+</footer>
+
+<script>
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+  // Animated stats counter
+  function animateCounter(id, target, prefix = '', suffix = '') {
+    const el = document.getElementById(id);
+    let current = 0;
+    const increment = Math.ceil(target / 60);
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      el.textContent = prefix + current.toLocaleString() + suffix;
+    }, 25);
+  }
+
+  window.addEventListener('load', () => {
+    animateCounter('statDonors', 1240);
+    animateCounter('statVolunteers', 380);
+    animateCounter('statProjects', 56);
+    animateCounter('statFunds', 20500, '$');
+  });
+
+  function scrollToCauses() {
+    document.getElementById('causes').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Newsletter form
+  document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('newsletterEmail').value.trim();
+    const msg = document.getElementById('newsletterMsg');
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      msg.style.color = '#d9534f';
+      msg.textContent = 'Please enter a valid email address.';
+      return;
+    }
+
+    msg.style.color = '#2e8b57';
+    msg.textContent = 'Thanks for subscribing! Check your inbox soon.';
+    this.reset();
+  });
+</script>
+
+</body>
+</html>

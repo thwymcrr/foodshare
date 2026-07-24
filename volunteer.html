@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volunteer With Us</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+
+  body {
+    background: #f4f6f8;
+    padding: 30px 15px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .volunteer-box {
+    background: #fff;
+    width: 480px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #2e8b57, #1f6e45);
+    color: #fff;
+    padding: 25px 30px;
+    text-align: center;
+  }
+
+  .header h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .header p {
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .form-area {
+    padding: 25px 30px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+  }
+
+  .input-group label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+
+  .input-group input,
+  .input-group select,
+  .input-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+  }
+
+  .input-group textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+
+  .input-group input:focus,
+  .input-group select:focus,
+  .input-group textarea:focus {
+    border-color: #2e8b57;
+  }
+
+  .interest-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 15px;
+  }
+
+  .interest-chip {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .interest-chip.active {
+    background: #2e8b57;
+    color: #fff;
+    border-color: #2e8b57;
+  }
+
+  .availability-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #555;
+  }
+
+  .volunteer-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2e8b57;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .volunteer-btn:hover {
+    background: #1f6e45;
+  }
+
+  .message {
+    margin-top: 15px;
+    font-size: 13px;
+    text-align: center;
+    min-height: 18px;
+  }
+
+  .message.error { color: #d9534f; }
+  .message.success { color: #2e8b57; }
+
+  .char-count {
+    font-size: 11px;
+    color: #999;
+    text-align: right;
+    margin-top: 3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="volunteer-box">
+  <div class="header">
+    <h1>Become a Volunteer</h1>
+    <p>Give your time, change a life</p>
+  </div>
+
+  <div class="form-area">
+    <form id="volunteerForm">
+
+      <div class="section-title">Personal details</div>
+      <div class="row">
+        <div class="input-group">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" placeholder="Enter your name" required>
+        </div>
+        <div class="input-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" min="14" max="100" placeholder="e.g. 22" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" placeholder="Enter phone number" required>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="city">City</label>
+        <input type="text" id="city" placeholder="Enter your city" required>
+      </div>
+
+      <div class="section-title">Areas of interest</div>
+      <div class="interest-grid" id="interestGrid">
+        <div class="interest-chip" data-value="Education">Education</div>
+        <div class="interest-chip" data-value="Healthcare">Healthcare</div>
+        <div class="interest-chip" data-value="Environment">Environment</div>
+        <div class="interest-chip" data-value="Disaster Relief">Disaster relief</div>
+        <div class="interest-chip" data-value="Event Support">Event support</div>
+        <div class="interest-chip" data-value="Fundraising">Fundraising</div>
+      </div>
+
+      <div class="section-title">Availability</div>
+      <div class="availability-group">
+        <label><input type="radio" name="availability" value="Weekdays" required> Weekdays</label>
+        <label><input type="radio" name="availability" value="Weekends"> Weekends</label>
+        <label><input type="radio" name="availability" value="Both"> Both</label>
+      </div>
+
+      <div class="input-group">
+        <label for="experience">Relevant experience (optional)</label>
+        <textarea id="experience" maxlength="300" placeholder="Tell us about any past volunteer or relevant work"></textarea>
+        <div class="char-count"><span id="charCount">0</span>/300</div>
+      </div>
+
+      <button type="submit" class="volunteer-btn">Submit Application</button>
+      <p class="message" id="message"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+  const selectedInterests = new Set();
+
+  document.querySelectorAll('.interest-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('active');
+      if (chip.classList.contains('active')) {
+        selectedInterests.add(chip.dataset.value);
+      } else {
+        selectedInterests.delete(chip.dataset.value);
+      }
+    });
+  });
+
+  const experienceField = document.getElementById('experience');
+  const charCount = document.getElementById('charCount');
+  experienceField.addEventListener('input', () => {
+    charCount.textContent = experienceField.value.length;
+  });
+
+  const message = document.getElementById('message');
+
+  document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const age = document.getElementById('age').value;
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const availability = document.querySelector('input[name="availability"]:checked');
+
+    if (fullName === '' || email === '' || phone === '' || city === '' || age === '') {
+      showMessage('Please fill in all required fields.', 'error');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      showMessage('Please enter a valid email address.', 'error');
+      return;
+    }
+
+    if (parseInt(age) < 14) {
+      showMessage('Volunteers must be at least 14 years old.', 'error');
+      return;
+    }
+
+    if (selectedInterests.size === 0) {
+      showMessage('Please select at least one area of interest.', 'error');
+      return;
+    }
+
+    if (!availability) {
+      showMessage('Please select your availability.', 'error');
+      return;
+    }
+
+    showMessage(
+      `Thank you, ${fullName}! Your application for ${[...selectedInterests].join(', ')} has been received.`,
+      'success'
+    );
+
+    this.reset();
+    document.querySelectorAll('.interest-chip').forEach(c => c.classList.remove('active'));
+    selectedInterests.clear();
+    charCount.textContent = '0';
+  });
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = 'message ' + type;
+  }
+</script>
+
+</body>
+</html>

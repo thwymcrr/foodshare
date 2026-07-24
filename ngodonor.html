@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate to Our NGO</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+
+  body {
+    background: #f4f6f8;
+    padding: 30px 15px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .donate-box {
+    background: #fff;
+    width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #2e8b57, #1f6e45);
+    color: #fff;
+    padding: 25px 30px;
+    text-align: center;
+  }
+
+  .header h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .header p {
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .form-area {
+    padding: 25px 30px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .amount-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .amount-btn {
+    padding: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .amount-btn.active {
+    background: #2e8b57;
+    color: #fff;
+    border-color: #2e8b57;
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+  }
+
+  .input-group label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+
+  .input-group input,
+  .input-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .input-group input:focus,
+  .input-group select:focus {
+    border-color: #2e8b57;
+  }
+
+  .cause-select {
+    margin-bottom: 15px;
+  }
+
+  .donate-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2e8b57;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .donate-btn:hover {
+    background: #1f6e45;
+  }
+
+  .message {
+    margin-top: 15px;
+    font-size: 13px;
+    text-align: center;
+    min-height: 18px;
+  }
+
+  .message.error { color: #d9534f; }
+  .message.success { color: #2e8b57; }
+
+  .summary {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #777;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="donate-box">
+  <div class="header">
+    <h1>Support Our Cause</h1>
+    <p>Every donation helps us change lives</p>
+  </div>
+
+  <div class="form-area">
+    <form id="donationForm">
+
+      <div class="section-title">Choose an amount</div>
+      <div class="amount-grid" id="amountGrid">
+        <button type="button" class="amount-btn" data-amount="10">$10</button>
+        <button type="button" class="amount-btn" data-amount="25">$25</button>
+        <button type="button" class="amount-btn" data-amount="50">$50</button>
+        <button type="button" class="amount-btn" data-amount="100">$100</button>
+        <button type="button" class="amount-btn" data-amount="250">$250</button>
+        <button type="button" class="amount-btn" data-amount="custom">Custom</button>
+      </div>
+
+      <div class="input-group" id="customAmountGroup" style="display:none;">
+        <label for="customAmount">Enter custom amount ($)</label>
+        <input type="number" id="customAmount" min="1" placeholder="e.g. 75">
+      </div>
+
+      <div class="input-group cause-select">
+        <label for="cause">Donate towards</label>
+        <select id="cause">
+          <option value="education">Education for children</option>
+          <option value="health">Healthcare support</option>
+          <option value="food">Food & nutrition</option>
+          <option value="disaster">Disaster relief</option>
+          <option value="general">Where it's needed most</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="donorName">Full name</label>
+        <input type="text" id="donorName" placeholder="Enter your name" required>
+      </div>
+
+      <div class="input-group">
+        <label for="donorEmail">Email address</label>
+        <input type="email" id="donorEmail" placeholder="Enter your email" required>
+      </div>
+
+      <div class="input-group">
+        <label><input type="checkbox" id="anonymous"> Donate anonymously</label>
+      </div>
+
+      <button type="submit" class="donate-btn">Donate Now</button>
+      <p class="message" id="message"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+  let selectedAmount = 0;
+
+  const amountButtons = document.querySelectorAll('.amount-btn');
+  const customGroup = document.getElementById('customAmountGroup');
+  const customInput = document.getElementById('customAmount');
+  const message = document.getElementById('message');
+
+  amountButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      amountButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (btn.dataset.amount === 'custom') {
+        customGroup.style.display = 'block';
+        selectedAmount = 0;
+        customInput.focus();
+      } else {
+        customGroup.style.display = 'none';
+        selectedAmount = parseFloat(btn.dataset.amount);
+      }
+    });
+  });
+
+  customInput.addEventListener('input', () => {
+    selectedAmount = parseFloat(customInput.value) || 0;
+  });
+
+  document.getElementById('donationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('donorName').value.trim();
+    const email = document.getElementById('donorEmail').value.trim();
+    const cause = document.getElementById('cause').value;
+    const anonymous = document.getElementById('anonymous').checked;
+
+    if (selectedAmount <= 0) {
+      showMessage('Please select or enter a valid donation amount.', 'error');
+      return;
+    }
+
+    if (name === '' || email === '') {
+      showMessage('Please fill in your name and email.', 'error');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      showMessage('Please enter a valid email address.', 'error');
+      return;
+    }
+
+    const donorDisplay = anonymous ? 'Anonymous' : name;
+    showMessage(
+      `Thank you, ${donorDisplay}! Your $${selectedAmount.toFixed(2)} donation towards "${cause}" was received.`,
+      'success'
+    );
+
+    this.reset();
+    amountButtons.forEach(b => b.classList.remove('active'));
+    customGroup.style.display = 'none';
+    selectedAmount = 0;
+  });
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = 'message ' + type;
+  }
+</script>
+
+</body>
+</html>
