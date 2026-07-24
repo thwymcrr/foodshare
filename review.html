@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews & Testimonials</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+
+  body {
+    background: #f4f6f8;
+    padding: 30px 15px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .reviews-wrapper {
+    width: 700px;
+    max-width: 100%;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #2e8b57, #1f6e45);
+    color: #fff;
+    padding: 25px 30px;
+    text-align: center;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .header h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .header p {
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .content-box {
+    background: #fff;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    padding: 25px 30px;
+  }
+
+  .summary {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+  }
+
+  .avg-score {
+    font-size: 40px;
+    font-weight: 700;
+    color: #2e8b57;
+  }
+
+  .stars {
+    color: #f5a623;
+    font-size: 16px;
+    margin: 4px 0;
+  }
+
+  .summary-count {
+    font-size: 12px;
+    color: #777;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+  }
+
+  /* Write a review form */
+  .review-form .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .input-group {
+    margin-bottom: 14px;
+  }
+
+  .input-group label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+
+  .input-group input,
+  .input-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+  }
+
+  .input-group textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+
+  .input-group input:focus,
+  .input-group textarea:focus {
+    border-color: #2e8b57;
+  }
+
+  .star-picker {
+    font-size: 26px;
+    letter-spacing: 4px;
+    cursor: pointer;
+    margin-bottom: 14px;
+  }
+
+  .star-picker span {
+    color: #ccc;
+    transition: color 0.15s;
+  }
+
+  .star-picker span.filled {
+    color: #f5a623;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2e8b57;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .submit-btn:hover {
+    background: #1f6e45;
+  }
+
+  .message {
+    margin-top: 12px;
+    font-size: 13px;
+    text-align: center;
+    min-height: 18px;
+  }
+
+  .message.error { color: #d9534f; }
+  .message.success { color: #2e8b57; }
+
+  /* Review list */
+  .review-list {
+    margin-top: 25px;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .filter-chip.active {
+    background: #2e8b57;
+    color: #fff;
+    border-color: #2e8b57;
+  }
+
+  .review-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 12px;
+  }
+
+  .review-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .reviewer-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .review-date {
+    font-size: 11px;
+    color: #999;
+  }
+
+  .review-stars {
+    color: #f5a623;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .review-text {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .no-reviews {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    padding: 20px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="reviews-wrapper">
+  <div class="header">
+    <h1>Reviews & Testimonials</h1>
+    <p>Hear from our donors and volunteers</p>
+  </div>
+
+  <div class="content-box">
+
+    <div class="summary">
+      <div class="avg-score" id="avgScore">0.0</div>
+      <div>
+        <div class="stars" id="avgStars">☆☆☆☆☆</div>
+        <div class="summary-count" id="summaryCount">Based on 0 reviews</div>
+      </div>
+    </div>
+
+    <div class="section-title">Write a review</div>
+    <form class="review-form" id="reviewForm">
+      <div class="row">
+        <div class="input-group">
+          <label for="reviewerName">Your name</label>
+          <input type="text" id="reviewerName" placeholder="Enter your name" required>
+        </div>
+        <div class="input-group">
+          <label for="reviewerRole">You are a</label>
+          <input type="text" id="reviewerRole" placeholder="Donor / Volunteer">
+        </div>
+      </div>
+
+      <label style="display:block; font-size:13px; color:#555; margin-bottom:5px;">Your rating</label>
+      <div class="star-picker" id="starPicker">
+        <span data-value="1">★</span>
+        <span data-value="2">★</span>
+        <span data-value="3">★</span>
+        <span data-value="4">★</span>
+        <span data-value="5">★</span>
+      </div>
+
+      <div class="input-group">
+        <label for="reviewText">Your review</label>
+        <textarea id="reviewText" placeholder="Share your experience with our NGO" required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Review</button>
+      <p class="message" id="message"></p>
+    </form>
+
+    <div class="review-list">
+      <div class="section-title">What people are saying</div>
+      <div class="filter-bar" id="filterBar">
+        <div class="filter-chip active" data-filter="0">All</div>
+        <div class="filter-chip" data-filter="5">5 star</div>
+        <div class="filter-chip" data-filter="4">4 star</div>
+        <div class="filter-chip" data-filter="3">3 star</div>
+        <div class="filter-chip" data-filter="2">2 star</div>
+        <div class="filter-chip" data-filter="1">1 star</div>
+      </div>
+      <div id="reviewListContainer"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let reviews = [
+    { name: "Ayesha Khan", role: "Donor", rating: 5, text: "Transparent process and I could see exactly where my donation went. Highly recommend.", date: "2 days ago" },
+    { name: "Rohan Mehta", role: "Volunteer", rating: 4, text: "Great team to work with, well organized events. Could improve communication a bit.", date: "1 week ago" },
+    { name: "Priya Sharma", role: "Donor", rating: 5, text: "Been donating monthly for a year now. Love the impact reports they send.", date: "2 weeks ago" }
+  ];
+
+  let currentRating = 0;
+  let activeFilter = 0;
+
+  const starPicker = document.getElementById('starPicker');
+  const starSpans = starPicker.querySelectorAll('span');
+
+  starSpans.forEach(star => {
+    star.addEventListener('click', () => {
+      currentRating = parseInt(star.dataset.value);
+      updateStarPicker();
+    });
+  });
+
+  function updateStarPicker() {
+    starSpans.forEach(star => {
+      star.classList.toggle('filled', parseInt(star.dataset.value) <= currentRating);
+    });
+  }
+
+  document.getElementById('filterBar').addEventListener('click', (e) => {
+    const chip = e.target.closest('.filter-chip');
+    if (!chip) return;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    activeFilter = parseInt(chip.dataset.filter);
+    renderReviews();
+  });
+
+  const message = document.getElementById('message');
+
+  document.getElementById('reviewForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('reviewerName').value.trim();
+    const role = document.getElementById('reviewerRole').value.trim() || "Supporter";
+    const text = document.getElementById('reviewText').value.trim();
+
+    if (name === '' || text === '') {
+      showMessage('Please fill in your name and review.', 'error');
+      return;
+    }
+
+    if (currentRating === 0) {
+      showMessage('Please select a star rating.', 'error');
+      return;
+    }
+
+    reviews.unshift({ name, role, rating: currentRating, text, date: "Just now" });
+
+    showMessage('Thank you for your review!', 'success');
+    this.reset();
+    currentRating = 0;
+    updateStarPicker();
+    renderReviews();
+    updateSummary();
+  });
+
+  function renderReviews() {
+    const container = document.getElementById('reviewListContainer');
+    const filtered = activeFilter === 0 ? reviews : reviews.filter(r => r.rating === activeFilter);
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="no-reviews">No reviews match this filter.</div>';
+      return;
+    }
+
+    container.innerHTML = filtered.map(r => `
+      <div class="review-card">
+        <div class="review-card-header">
+          <span class="reviewer-name">${escapeHtml(r.name)} <span style="font-weight:400; color:#999; font-size:12px;">(${escapeHtml(r.role)})</span></span>
+          <span class="review-date">${r.date}</span>
+        </div>
+        <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+        <div class="review-text">${escapeHtml(r.text)}</div>
+      </div>
+    `).join('');
+  }
+
+  function updateSummary() {
+    const total = reviews.length;
+    const avg = total === 0 ? 0 : reviews.reduce((sum, r) => sum + r.rating, 0) / total;
+    document.getElementById('avgScore').textContent = avg.toFixed(1);
+    document.getElementById('summaryCount').textContent = `Based on ${total} review${total !== 1 ? 's' : ''}`;
+
+    const fullStars = Math.round(avg);
+    document.getElementById('avgStars').textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = 'message ' + type;
+  }
+
+  renderReviews();
+  updateSummary();
+</script>
+
+</body>
+</html>
