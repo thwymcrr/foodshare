@@ -4,3 +4,5 @@ FoodShare is a web-based platform designed to reduce food waste by connecting in
 Author - Swayam Prakash Mishra
 <br>
 Author's email - mishra.swayamprakash20@gmail.com
+<br>
+food share is a clone website of original NGO-food-donation websites.
